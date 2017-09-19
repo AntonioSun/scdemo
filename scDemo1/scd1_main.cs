@@ -18,6 +18,9 @@ class ProgTest
         // Demo1.Program.Test3A();
         Demo1.Program.TestDataTable();
 
+        var d2 = new Demo2.Program();
+        d2.Test1A();
+
         Util.Scriban.Test0();
 
         Util.Scriban.Init();

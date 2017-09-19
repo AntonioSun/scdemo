@@ -54,6 +54,7 @@
     <Compile Include="scd1_main.cs" />
     <Compile Include="scUtil.cs" />
     <Compile Include="sc_demo1.cs" />
+    <Compile Include="sc_demo2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
