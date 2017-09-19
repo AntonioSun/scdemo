@@ -5,7 +5,7 @@
 // Credits: as credited below
 ////////////////////////////////////////////////////////////////////////////
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using System.Data;
@@ -28,6 +28,8 @@ namespace Demo1
         /// https://github.com/lunet-io/scriban/blob/master/doc/language.md
         public static void Test1A()
         {
+            var repos = JsonConvert.DeserializeObject<Data.Repos>(Data.Repo.json);
+
             var template = Template.Parse(@"{
                     ""total"": {{repos.total_count}},
                     ""items"": [
@@ -39,7 +41,6 @@ namespace Demo1
                 {{end}}
                     ]
                 }");
-            var repos = JsonConvert.DeserializeObject<Data.Repos>(Data.Repo.json);
             var result = template.Render(new { repos = repos });
             Console.WriteLine("\n## Test1A, json var");
             Console.WriteLine(result);
@@ -47,7 +48,7 @@ namespace Demo1
         }
 
         /// ////////////////////////////////////////////////////////////////////////////
-         public static void Test1B()
+        public static void Test1B()
         {
             Console.WriteLine("\n## Test1B, json obj");
 
@@ -74,17 +75,17 @@ namespace Demo1
             //Console.ReadKey();
         }
 
-         public static string OwnerToJSON(Data.Item ii)
-         {
-             return JsonConvert.SerializeObject(ii.owner);
-         }
+        public static string OwnerToJSON(Data.Item ii)
+        {
+            return JsonConvert.SerializeObject(ii.owner);
+        }
 
 
-         public static void Test2A()
-         {
-             var repos = JsonConvert.DeserializeObject<Data.Repos>(Data.Repo.json);
+        public static void Test2A()
+        {
+            var repos = JsonConvert.DeserializeObject<Data.Repos>(Data.Repo.json);
 
-             var template = Template.Parse(@"{
+            var template = Template.Parse(@"{
                     ""total"": {{repos.total_count}},
                     ""items"": [
                     {
@@ -95,43 +96,43 @@ namespace Demo1
                 {{end}}
                     ]
                 }");
-             var model = new { repos = repos };
-             Util.Scriban.globalFunctions.Import(model);
+            var model = new { repos = repos };
+            Util.Scriban.globalFunctions.Import(model);
 
-             Util.Scriban.globalContext.PushGlobal(Util.Scriban.globalFunctions);
-             template.Render(Util.Scriban.globalContext);
-             Util.Scriban.globalContext.PopGlobal();
+            Util.Scriban.globalContext.PushGlobal(Util.Scriban.globalFunctions);
+            template.Render(Util.Scriban.globalContext);
+            Util.Scriban.globalContext.PopGlobal();
 
-             var result = Util.Scriban.globalContext.Output.ToString();
+            var result = Util.Scriban.globalContext.Output.ToString();
 
-             Console.WriteLine("\n## Test2A, json var, NOK");
-             Console.WriteLine(result);
-             Console.ReadKey();
-         }
+            Console.WriteLine("\n## Test2A, json var, NOK");
+            Console.WriteLine(result);
+            Console.ReadKey();
+        }
 
-         public static void TestDataTable()
-         {
-             Console.WriteLine("\n## TestC, DataTable");
+        public static void TestDataTable()
+        {
+            Console.WriteLine("\n## TestC, DataTable");
 
-             System.Data.DataTable dataTable = new System.Data.DataTable();
-             dataTable.Columns.Add("Column1");
-             dataTable.Columns.Add("Column2");
+            System.Data.DataTable dataTable = new System.Data.DataTable();
+            dataTable.Columns.Add("Column1");
+            dataTable.Columns.Add("Column2");
 
-             System.Data.DataRow dataRow = dataTable.NewRow();
-             dataRow["Column1"] = "Hello";
-             dataRow["Column2"] = "World";
-             dataTable.Rows.Add(dataRow);
+            System.Data.DataRow dataRow = dataTable.NewRow();
+            dataRow["Column1"] = "Hello";
+            dataRow["Column2"] = "World";
+            dataTable.Rows.Add(dataRow);
 
-             dataRow = dataTable.NewRow();
-             dataRow["Column1"] = "Bonjour";
-             dataRow["Column2"] = "le monde";
-             dataTable.Rows.Add(dataRow);
+            dataRow = dataTable.NewRow();
+            dataRow["Column1"] = "Bonjour";
+            dataRow["Column2"] = "le monde";
+            dataTable.Rows.Add(dataRow);
 
-             string json = JsonConvert.SerializeObject(dataTable);
-             Console.WriteLine("Json: "+ json);
+            string json = JsonConvert.SerializeObject(dataTable);
+            Console.WriteLine("Json: " + json);
 
-             {
-                 string myTemplate = @"
+            {
+                string myTemplate = @"
                 {{
                 tb = " + json + @"
                 }}
@@ -144,15 +145,15 @@ namespace Demo1
 {{tb}}
 ";
 
-                 var template = Template.Parse(myTemplate);
-                 var result = template.Render();
-                 Console.WriteLine(result);
-             }
-             {
-                 var parsed = JsonConvert.DeserializeObject(json);
-                 Console.WriteLine("Parsed: "+ parsed);
+                var template = Template.Parse(myTemplate);
+                var result = template.Render();
+                Console.WriteLine(result);
+            }
+            {
+                var parsed = JsonConvert.DeserializeObject(json);
+                Console.WriteLine("Parsed: " + parsed);
 
-                 string myTemplate = @"
+                string myTemplate = @"
 [
   { {{ for tbr in tb }}
     ""N"": {{tbr.Column1}},
@@ -162,10 +163,10 @@ namespace Demo1
 {{tb}}
 ";
 
-                 var template = Template.Parse(myTemplate);
-                 var result = template.Render(new { tb = parsed });
-                 Console.WriteLine(result);
-             }
-         }
+                var template = Template.Parse(myTemplate);
+                var result = template.Render(new { tb = parsed });
+                Console.WriteLine(result);
+            }
+        }
     }
 }
