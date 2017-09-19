@@ -62,7 +62,7 @@ namespace Demo2
             // serialize
             scriptObject.Import("serialize", new Func<Object, string>(x => JsonConvert.SerializeObject(x)));
 
-            // Register functions available through the object 'ghext' in scriban
+            // Register functions available through the object 'base' in scriban
             var libObject = ScriptObject.From(typeof(TplUtil));
             scriptObject.SetValue("base", libObject, true);
         }
@@ -100,7 +100,11 @@ namespace Demo2
 d[1].Brand 
 ""\n"" 
 d[0].Specs.Storage
+""\n"" 
 }}";
+            // d[0] | base.select "".Specs.Storage""
+            // d[0].Specs.Storage | base.downcase
+
             string theModel = Phone.phonea;
             var parsed = JsonConvert.DeserializeObject<JArray>(theModel);
             var template = Template.Parse(theTemplate);
