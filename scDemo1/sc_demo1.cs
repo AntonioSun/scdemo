@@ -6,18 +6,20 @@
 ////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 
-using System.Data;
-using System.Data.SqlClient;
+//using System.Data;
+//using System.Data.SqlClient;
 
 using Newtonsoft.Json;
-//using Newtonsoft.Json.Linq; // for JObject
+using Newtonsoft.Json.Linq; // for JObject/JArray
 
 using Scriban;
 using Scriban.Runtime; // ScriptObject() & Import()
 
 //using Util.Scriban;
+
+using Data;
 
 namespace Demo1
 {
@@ -79,6 +81,99 @@ namespace Demo1
         {
             return JsonConvert.SerializeObject(ii.owner);
         }
+
+        public static void Test2A()
+        {
+            {
+                var template = Template.Parse(@"
+{{
+js = " + Phone.phones + @"
+text
+""\n""
+js
+""\n""
+js.Phones[1].Brand
+""\n""
+js.Phones[0].Specs.Storage
+}}
+");
+                var result = template.Render(new { text = "Hello" });
+                Console.WriteLine("\n## Test2A-1, json objects");
+                Console.WriteLine(result);
+            };
+            {
+                var template = Template.Parse(@"
+{{
+js = " + Phone.phonea + @"
+text
+""\n""
+js
+""\n""
+js[1].Brand
+""\n""
+js[0].Specs.Storage
+}}
+");
+                var result = template.Render(new { text = "Hello" });
+                Console.WriteLine("\n## Test2A-2, json objects");
+                Console.WriteLine(result);
+            };
+        }
+
+/*
+
+## Test2A-1, json objects
+
+Hello
+{Phones: [{Brand: Nokia, Type: Lumia 800, Specs: {Storage: 16GB, Memory: 512MB,
+Screensize: 3.7}}, {Brand: Nokia, Type: Lumia 900, Specs: {Storage: 8GB, Memory:
+ 512MB, Screensize: 4.3}}, {Brand: HTC , Type: Titan II, Specs: {Storage: 16GB,
+Memory: 512MB, Screensize: 4.7}}]}
+Nokia
+16GB
+
+
+## Test2A-2, json objects
+
+Hello
+[{Brand: Nokia, Type: Lumia 800, Specs: {Storage: 16GB, Memory: 512MB, Screensiz
+e: 3.7}}, {Brand: Nokia, Type: Lumia 900, Specs: {Storage: 8GB, Memory: 512MB, S
+creensize: 4.3}}, {Brand: HTC , Type: Titan II, Specs: {Storage: 16GB, Memory: 5
+12MB, Screensize: 4.7}}]
+Nokia
+16GB
+
+*/
+ 
+        public static void Test2B()
+        {
+            string theModel = Phone.phonea;
+            var parsed = JsonConvert.DeserializeObject<JArray>(theModel);
+
+            var template = Template.Parse(@"
+{{
+js
+""\n""
+js[1].Brand
+""\n""
+js[0].Specs.Storage
+}}
+");
+                var result = template.Render(new { js = parsed });
+                Console.WriteLine("\n## Test2B, json objects passed");
+                Console.WriteLine(result);
+        }
+
+/*
+
+## Test2B, json objects passed
+
+[[[Nokia], [Lumia 800], [[[16GB], [512MB], [3.7]]]], [[Nokia], [Lumia 900], [[[8
+GB], [512MB], [4.3]]]], [[HTC ], [Titan II], [[[16GB], [512MB], [4.7]]]]]
+Nokia
+16GB
+
+*/
 
 
         public static void Test3A()

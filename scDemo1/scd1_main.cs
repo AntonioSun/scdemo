@@ -10,6 +10,10 @@ class ProgTest
     {
         Demo1.Program.Test1A();
         Demo1.Program.Test1B();
+
+        Demo1.Program.Test2A();
+        Demo1.Program.Test2B();
+
         // Demo1.Program.Test3A();
         Demo1.Program.TestDataTable();
 
