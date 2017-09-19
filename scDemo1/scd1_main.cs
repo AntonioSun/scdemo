@@ -13,6 +13,7 @@ class ProgTest
 
         Demo1.Program.Test2A();
         Demo1.Program.Test2B();
+        Demo1.Program.Test2C();
 
         // Demo1.Program.Test3A();
         Demo1.Program.TestDataTable();

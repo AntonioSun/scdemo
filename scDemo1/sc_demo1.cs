@@ -164,17 +164,56 @@ js[0].Specs.Storage
                 Console.WriteLine(result);
         }
 
-/*
+        /*
 
-## Test2B, json objects passed
+        ## Test2B, json objects passed
 
-[[[Nokia], [Lumia 800], [[[16GB], [512MB], [3.7]]]], [[Nokia], [Lumia 900], [[[8
-GB], [512MB], [4.3]]]], [[HTC ], [Titan II], [[[16GB], [512MB], [4.7]]]]]
-Nokia
-16GB
+        [[[Nokia], [Lumia 800], [[[16GB], [512MB], [3.7]]]], [[Nokia], [Lumia 900], [[[8
+        GB], [512MB], [4.3]]]], [[HTC ], [Titan II], [[[16GB], [512MB], [4.7]]]]]
+        Nokia
+        16GB
 
-*/
+        */
 
+        public static void Test2C()
+        {
+            // Init vars
+            string theTemplate = @"{{ d 
+""\n"" 
+d[1].Brand 
+""\n"" 
+d[0].Specs.Storage
+}}";
+            string theModel = Phone.phonea;
+            var parsed = JsonConvert.DeserializeObject<JArray>(theModel);
+            var template = Template.Parse(theTemplate);
+            var model = new { d = parsed };
+
+            var scriptObject = new ScriptObject();
+            scriptObject.Import(model);
+            // Register(scriptObject);
+
+            // Render from Template
+            var context = new TemplateContext();
+            context.PushGlobal(scriptObject);
+            template.Render(context);
+            context.PopGlobal();
+            string result = context.Output.ToString();
+
+            Console.WriteLine("\n## Test2C, json objects + Global");
+            Console.WriteLine(result);
+        }
+
+        /*
+
+        ## Test2C, json objects + Global
+
+        [[[Nokia], [Lumia 800], [[[16GB], [512MB], [3.7]]]], [[Nokia], [Lumia 900], [[[8
+        GB], [512MB], [4.3]]]], [[HTC ], [Titan II], [[[16GB], [512MB], [4.7]]]]]
+        Nokia
+        16GB
+
+        */
 
         public static void Test3A()
         {
