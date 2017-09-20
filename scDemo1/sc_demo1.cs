@@ -24,7 +24,7 @@ using Data;
 namespace Demo1
 {
 
-    class Program
+    public class Program
     {
         /// ////////////////////////////////////////////////////////////////////////////
         /// https://github.com/lunet-io/scriban/blob/master/doc/language.md

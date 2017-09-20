@@ -39,7 +39,7 @@ namespace Util
         }
     }
 
-    class Scriban
+    public class Scriban
     {
 
         public static TemplateContext globalContext;
