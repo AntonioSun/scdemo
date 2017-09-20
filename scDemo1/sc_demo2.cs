@@ -101,9 +101,11 @@ d[1].Brand
 ""\n"" 
 d[0].Specs.Storage
 ""\n"" 
+d[0] | select "".Specs.Storage""
+d[0].Specs.Storage | base.down_case
+""\n"" 
+base.get_uuid 
 }}";
-            // d[0] | base.select "".Specs.Storage""
-            // d[0].Specs.Storage | base.downcase
 
             string theModel = Phone.phonea;
             var parsed = JsonConvert.DeserializeObject<JArray>(theModel);
