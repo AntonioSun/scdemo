@@ -16,6 +16,7 @@ class ProgTest
         Demo1.Program.Test2C();
 
         // Demo1.Program.Test3A();
+        Demo1.Program.TestRegexp();
         Demo1.Program.TestDataTable();
 
         var d2 = new Demo2.Program();

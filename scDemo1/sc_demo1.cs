@@ -244,6 +244,28 @@ d[0].Specs.Storage
             Console.ReadKey();
         }
 
+        public static void TestRegexp()
+        {
+            var model = new { d = "This and these are for THOSE people" };
+            string myTemplate = @"
+                   ""r1"": {{ d | regex.replace `t(his|h[eo]se)`  ""changed"" }},
+                ";
+            var template = Template.Parse(myTemplate);
+            var result = template.Render(model);
+
+            Console.WriteLine("\n## TestRegexp");
+            Console.WriteLine(result);
+
+            myTemplate = @"
+                   ""r2"": {{ d | regex.replace `t(his|h[eo]se)`  ""changed"" ""gi"" }},
+                ";
+            template = Template.Parse(myTemplate);
+            result = template.Render(model);
+            Console.WriteLine(result);
+
+            //Console.ReadKey();
+        }
+
         public static void TestDataTable()
         {
             Console.WriteLine("\n## TestC, DataTable");

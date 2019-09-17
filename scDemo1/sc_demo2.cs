@@ -90,8 +90,8 @@ namespace Demo2
             // Default functions
 
             // select, selects a JSON array
-            scriptObject.Import("select", new Func<string, Object, Object>((f, o) =>
-                JsonConvert.SerializeObject(JObject.Parse(JsonConvert.SerializeObject(o)).SelectTokens(f))));
+            //scriptObject.Import("select", new Func<string, Object, Object>((f, o) =>
+            //    JsonConvert.SerializeObject(JObject.Parse(JsonConvert.SerializeObject(o)).SelectTokens(f))));
             // jpathobj, selects jpath as a JSON array
             scriptObject.Import("jpathobj", new Func<string, string, Object>((f, s) =>
                 JsonConvert.SerializeObject(JsonConvert.DeserializeObject<JObject>(s).SelectTokens(f))));
@@ -141,12 +141,12 @@ d[1].Brand
 ""\n"" 
 d[0].Specs.Storage
 ""\n"" 
-d[0] | select "".Specs.Storage""
 d[0].Specs.Storage | base.down_case
 ""\n"" 
 base.get_uuid
 base.phones
 }}";
+// d[0] | select "".Specs.Storage""
 
             string theModel = Phone.phonea;
             var parsed = JsonConvert.DeserializeObject<JArray>(theModel);
@@ -187,6 +187,8 @@ base.phones
 
         public void Test2D(delegateRegister Register)
         {
+            return;
+
             // Init vars
             string theTemplate = @"{{
 base.phones | jpathobj "".Phones""
